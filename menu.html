@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <!-- Правильный Viewport для веб-приложений -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
+<!-- Связь с манифестом -->
+<link rel="manifest" href="manifest.json">
+
+<!-- Иконка для iPhone/iPad -->
+<link rel="apple-touch-icon" href="assets/images/icon-192.png">
+
+<!-- Настройки для iOS, чтобы скрыть интерфейс браузера -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ИмяПриложения">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="menu-page">
+    
+    <script src="script.js"></script>
+
+    <main>
+        <div class="menu-widgets-container">
+            <img src="assets/images/menu_widgets.png" alt="Menu Widgets" class="menu-widget-img">
+            
+            <div class="exit-button-wrapper">
+                <img src="assets/images/exit_button.png" alt="Exit" class="exit-btn" onclick="this.style.opacity='0.7'; setTimeout(()=>this.style.opacity='1', 100)">
+            </div>
+        </div>
+    </main>
+
+    <nav class="bottom-menu">
+        <img src="assets/images/menu_bar.svg" class="menu-bg" alt="">
+    
+        <div class="menu-icons">
+            <a href="index.html" class="menu-item active">
+                <img src="assets/images/news_icon1.png" alt="News" class="icon-news">
+            </a>
+            <a href="documents.html" class="menu-item">
+                <img src="assets/images/documents_icon1.png" alt="Docs" class="icon-docs">
+            </a>
+            <a href="services.html" class="menu-item">
+                <img src="assets/images/services_icon1.png" alt="Services" class="icon-services">
+            </a>
+            <a href="menu.html" class="menu-item">
+                <img src="assets/images/menu_icon2.png" alt="Menu" class="icon-burger">
+            </a>
+        </div>
+    </nav>
+</body>
+</html>

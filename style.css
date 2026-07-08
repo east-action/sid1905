@@ -1,0 +1,1795 @@
+html {
+    /* Запрещает iOS и Android самовольно увеличивать шрифт */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+/* Принудительный сброс для всех элементов бегущей строки */
+.marquee, .marquee *, .running-text, .running-text * {
+    font-size: 12px !important; /* Укажи нужный тебе размер */
+    
+    display: inline-block;
+}
+/* Блокировка выделения и системных меню */
+* {
+    -webkit-tap-highlight-color: transparent; /* Убирает синюю рамку при нажатии */
+    -webkit-touch-callout: none;                /* Блокирует контекстное меню на iOS (сохранение картинок) */
+    -webkit-user-select: none;                 /* Блокирует выделение текста */
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Запрет перетаскивания картинок */
+img {
+    pointer-events: none;
+    -webkit-user-drag: none;
+}
+
+body {
+    /* Автоматические отступы под челку и системную полоску снизу */
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* --- СЕМЕЙСТВО HEAD (Заголовки) --- */
+
+@font-face {
+    font-family: 'Head';
+    src: url('assets/fonts/Head-Thin.otf') format('opentype');
+    font-weight: 100;
+}
+
+@font-face {
+    font-family: 'Head';
+    src: url('assets/fonts/Head-UltraLight.otf') format('opentype');
+    font-weight: 200;
+}
+
+@font-face {
+    font-family: 'Head';
+    src: url('assets/fonts/Head-Light.otf') format('opentype');
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: 'Head';
+    src: url('assets/fonts/Head-Regular.otf') format('opentype');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'Head';
+    src: url('assets/fonts/Head-Medium.otf') format('opentype');
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: 'Head';
+    src: url('assets/fonts/Head-Bold.otf') format('opentype');
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: 'Head';
+    src: url('assets/fonts/Head-LOGO.otf') format('opentype');
+    font-weight: 900; /* Используем как самый жирный/логотипный */
+}
+
+/* --- ОСНОВНОЕ СЕМЕЙСТВО (MainFont) --- */
+
+@font-face {
+    font-family: 'MainFont';
+    src: url('assets/fonts/UltraLight.otf') format('opentype');
+    font-weight: 200;
+}
+
+@font-face {
+    font-family: 'MainFont';
+    src: url('assets/fonts/Thin.otf') format('opentype');
+    font-weight: 100;
+}
+
+@font-face {
+    font-family: 'MainFont';
+    src: url('assets/fonts/Light.otf') format('opentype');
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: 'MainFont';
+    src: url('assets/fonts/Regular.otf') format('opentype');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'MainFont';
+    src: url('assets/fonts/Medium.otf') format('opentype');
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: 'MainFont';
+    src: url('assets/fonts/Bold.otf') format('opentype');
+    font-weight: 700;
+}
+
+
+/* Обнуляем лишние отступы браузера */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden; /* Чтобы страница случайно не дергалась вправо-влево */
+}
+body {
+    
+    
+    min-height: 100vh;
+    padding-bottom: 93px; /* Оставляем место под меню, чтобы контент не перекрывался */
+}
+
+/* --- ФОН ТОЛЬКО ДЛЯ ГЛАВНОЙ СТРАНИЦЫ (INDEX) --- */
+
+/* Настройки самого тела страницы */
+body.index-page {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    /* Убираем любой стандартный фон, чтобы он не просвечивал */
+    background: #000; 
+}
+
+/* Привязываем фон к псевдоэлементу именно этого класса */
+body.index-page::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    
+    background-image: url('assets/images/background.png'); /* Проверь расширение png/PNG */
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    background-size: cover;
+    
+    /* Тот самый микро-скейл от белых полос */
+    transform: scale(1.02);
+}
+
+/* Очищаем старый фон main-content, чтобы он не перекрывал новый */
+.index-page .main-content {
+    background: none !important;
+}
+.main-content {
+    /* Путь к твоему файлу */
+    background-image: url('assets/images/background.PNG');
+    
+    /* Запрещаем повторение картинки */
+    background-repeat: no-repeat;
+    
+    /* ПРИВЯЗКА К НИЖНЕМУ КРАЮ */
+    /* bottom — прижимает низ картинки к низу экрана */
+    /* center — центрирует по горизонтали */
+    background-position: center bottom;
+    
+    /* УМНОЕ РАСТЯГИВАНИЕ */
+    /* cover растягивает картинку так, чтобы она полностью закрыла контейнер. 
+       Если экран слишком высокий, она дотянется до верха пропорционально, 
+       обрезая лишние бока. Если широкий — заполнит бока, обрезая верх. */
+    background-size: cover;
+    
+    /* Фиксируем фон, чтобы он не уезжал при скролле (опционально) */
+    background-attachment: fixed;
+    
+    /* Растягиваем сам блок страницы на всю высоту экрана */
+    min-height: 100vh;
+    width: 100%;
+}
+
+/* Навигационная панель */
+.bottom-menu {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 105px; /* Высота из твоей Figma 92-98 */
+    z-index: 1000; /* Чтобы меню было всегда сверху */
+}
+
+/* Фон меню */
+.menu-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Растягивает полоску на всю ширину */
+}
+
+/* Контейнер иконок */
+.menu-icons {
+    position: relative;
+    display: flex;
+    justify-content: space-around; /* Равномерно распределяет 4 иконки */
+    align-items: center;
+    height: 100%;
+    padding: 0 20px; /* Боковые отступы */
+    bottom: 15%
+}
+
+/* Базовые стили для каждой ссылки с иконкой */
+.menu-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+/* Индивидуальные размеры из Figma */
+.icon-news { width: 45px; height: 44px; }
+.icon-docs { width: 65px; height: 44px; }
+.icon-services { width: 67px; height: 45px; }
+.icon-burger { width: 36px; height: 38px; }
+
+
+/* Основной контейнер страницы */
+.main-content {
+    display: flex;
+    flex-direction: column; /* Выстраиваем картинки в колонку */
+    align-items: center;    /* Центрируем их по горизонтали */
+    width: 100%;
+    padding-top: 50px;      /* Отступ от самого верха экрана */
+    padding-bottom: 110px;  /* Важно! Отступ снизу, чтобы контент не залезал ПОД меню */
+    overflow-y: auto;       /* Включаем вертикальную прокрутку */
+    -webkit-overflow-scrolling: touch; /* Плавный скролл на iPhone */
+}
+
+/* Общий стиль для всех картинок на странице */
+.widget {
+    display: block;
+    height: auto; /* Высота подстроится сама под ширину */
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px; /* Отступ между виджетами */
+}
+
+/* 1. Самый верхний (welcome_widget) - x10 y74 w135 */
+/* В мобильной версии 135px от 393px — это примерно 34% */
+.widget[alt="Header"] {
+    width: 34%;
+    margin-top: 20px;
+}
+
+/* 2. Верхнее окно (upper_window) - w352.92 */
+.widget[alt="Widget 2"] {
+    width: 90%;
+}
+
+/* 3. Три иконки (three_icons) - w354 */
+.widget[alt="Widget 3"] {
+    width: 90%;
+}
+
+/* 4. Средний виджет (middle_widget) - w351 */
+.widget[alt="Widget 4"] {
+    width: 89%;
+}
+
+/* 5. Нижние виджеты (bottom_widgets) - x0 y629 w392 h500 */
+/* Этот виджет у тебя идет на всю ширину (от края до края) */
+.widget[alt="Footer Widget"] {
+    width: 100%;
+    margin-bottom: 0;
+    border-radius: 0; /* Убираем скругления, если он должен прилегать к краям */
+}
+
+
+/* --- СТИЛИ ТЕКСТА НА ПЕРВОЙ СТРАНИЦЕ --- */
+
+.welcome-header {
+    /* НАСТРОЙКИ ПОЗИЦИОНИРОВАНИЯ */
+    --top-padding: 60px;    /* Расстояние от верхнего края экрана */
+    --left-margin: 35px;    /* Расстояние от левого края экрана */
+    --bottom-gap: 30px;     /* Расстояние до первого виджета */
+
+    /* НАСТРОЙКИ ТЕКСТА */
+    --text-size: 5.1vw;     /* Размер текста */
+    --text-weight: 400;     /* Вес шрифта */
+    --text-color: #000000;  /* Цвет текста */
+
+    --emoji-scale: 1.6;
+    
+    display: flex;
+    align-items: center;    /* Текст и эмодзи на одной линии по вертикали */
+    justify-content: flex-start; /* ПРИЖИМАЕМ КЛЕВОМУ КРАЮ */
+    
+    width: 100%;
+    box-sizing: border-box;
+    
+    /* Применяем наши отступы */
+    padding-top: var(--top-padding);
+    padding-left: var(--left-margin);
+    margin-bottom: var(--bottom-gap);
+}
+
+.welcome-text {
+    font-family: 'MainFont', sans-serif;
+    font-size: var(--text-size);
+    font-weight: var(--text-weight);
+    color: var(--text-color);
+    margin-right: 8px; /* Зазор между текстом и эмодзи */
+    white-space: nowrap; /* Чтобы текст не перепрыгивал на новую строку */
+}
+
+.welcome-emoji {
+    /* Вычисляем размер: размер текста умножаем на коэффициент */
+    height: calc(var(--text-size) * var(--emoji-scale)); 
+    width: auto;
+    display: block;
+    
+    /* Если эмодзи слишком "высокий" и текст кажется заниженным, 
+       можно добавить небольшое смещение вниз: */
+    /* transform: translateY(2px); */
+}
+
+
+.main-content-fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 93px); /* Весь экран минус меню */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Запрещаем любой скролл */
+    touch-action: none; /* Отключаем системные жесты браузера */
+    padding-top: 40px;
+}
+
+/* Обнови эти блоки в style.css */
+
+.card-scene {
+    width: 80%;
+    max-width: 320px;
+    height: 70%;
+    max-height: 500px;
+    perspective: 2000px; /* Увеличили перспективу для плавности */
+}
+
+.card {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.1); /* Эффект инерции */
+    transform-style: preserve-3d;
+    cursor: pointer;
+    will-change: transform; /* Включает аппаратное ускорение и сглаживание */
+}
+
+.card.is-flipped {
+    transform: rotateY(180deg) !important;
+}
+
+
+
+
+/* Рамка карты (важно для эффекта стекла) */
+.card-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 30px;
+    
+    border: none; 
+    
+    /* Оставляем тень, она помогает карте не сливаться с фоном */
+    box-shadow: none;
+    overflow: hidden;
+}
+
+/* Обратная сторона карты */
+.card-back {
+    background: #ffffff;
+    color: #333333;
+    /* Тоже меняем на 180, чтобы текст не был зеркальным после поворота */
+    transform: rotateY(180deg); 
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* --- Контейнер для текста на карте --- */
+.card-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 30px;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    pointer-events: none;
+    
+    /* ПЛАВНОСТЬ: Текст будет исчезать/появляться плавно за 0.6 сек */
+    transition: opacity 0.6s ease-in-out; 
+}
+
+/* Стили для заголовка на карте */
+.card-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #000000; /* Текст не прозрачный */
+    margin-bottom: 10px;
+    text-shadow: 0 2px 4px rgba(255,255,255,0.5); /* Легкая тень для читаемости на пестром фоне */
+}
+
+
+
+@keyframes move {
+    0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+    33% { transform: translate(15vw, 10vh) rotate(20deg) scale(1.1); }
+    66% { transform: translate(-10vw, 20vh) rotate(-20deg) scale(0.9); }
+    100% { transform: translate(5vw, -5vh) rotate(10deg) scale(1); }
+}
+
+
+/* Лицевая сторона - ПЛОТНОЕ МАТОВОЕ СТЕКЛО (как на фото) */
+.card-front {
+    z-index: 2;
+    /* ПОДОБРАЛИ ПЛОТНОСТЬ: 12% белого фона дает матовый эффект, осветляет фон, но пропускает оттенок */
+    background: rgba(255, 255, 255, 0.35) !important; 
+    
+    /* Сохраняем сильный блюр для мягкости */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.card-bg-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.1;
+    pointer-events: none;
+}
+
+/* --- Контейнер всей страницы --- */
+.main-content-fixed {
+    position: fixed;
+    inset: 0;
+    height: calc(100vh - 93px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* Убрали overflow здесь, чтобы тень не резалась */
+}
+
+/* --- Слайдер (Карусель) --- */
+.cards-slider {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 75vh; 
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    
+    padding-left: calc(50vw - (min(100vw - 30px, 390px) / 2));
+    padding-right: calc(50vw - (min(100vw - 30px, 390px) / 2));
+    
+    /* УДАЛИ clip-path и добавь это: */
+    overflow-y: visible; /* Позволяет тени выходить сверху и снизу */
+}
+.cards-slider::-webkit-scrollbar { display: none; }
+
+/* --- Сама карта --- */
+.card-container {
+    flex: 0 0 calc(100vw - 30px); 
+    max-width: 390px; 
+    aspect-ratio: 2 / 3; 
+    
+    /* Уменьшили расстояние между картами в 3 раза (было 20px, стало 7px) */
+    margin-right: -15px; 
+    
+    scroll-snap-align: center;
+    perspective: 2000px;
+    transition: transform 0.5s ease;
+    position: relative;
+    z-index: 1; /* Базовый z-index */
+}
+
+.card-container:last-child { margin-right: 0; }
+
+.card {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+
+
+/* Фикс позиционирования точек */
+.pagination-dots {
+    margin-top: 10px; /* Отступ от слайдера вниз */
+    display: flex;
+    justify-content: center; /* Центрируем точки по горизонтали */
+    align-items: center;
+    gap: 10px;
+    z-index: 10;
+    width: 100%; /* Растягиваем на всю ширину для центровки */
+}
+
+.dot {
+    width: 7px;
+    height: 7px;
+    /* Полупрозрачный темный для неактивных */
+    background: rgba(0, 0, 0, 0.2); 
+    border-radius: 50%;
+    transition: background 0.4s ease, transform 0.4s ease;
+}
+
+/* Активная точка теперь БЕЛАЯ */
+.dot.active { 
+    background: #ffffff; 
+    transform: scale(1.2); /* Чуть увеличим для акцента */
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.0);  /*Легкое свечение  */
+}
+
+
+/* Контейнер для разделенной карты */
+.split-card-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Создает пустоту между частями */
+    background: transparent !important;
+    cursor: default !important;
+}
+
+.card-part {
+    position: relative;
+    width: 100%;
+    height: 49%; /* Увеличили с 46%, теперь зазор всего 2% */
+    perspective: 1000px;
+}
+
+/* Наследуем матовый эффект основных карт для половинок */
+.card-part .card-front {
+    position: absolute;
+    inset: 0;
+    border-radius: 20px; /* Скругление для мини-карт */
+    background: rgba(255, 255, 255, 0.35) !important;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    overflow: hidden;
+}
+
+/* Настройка текстуры внутри половинок */
+.card-part .card-bg-img {
+    opacity: 0.15; /* Такая же прозрачность как у всех */
+    object-fit: cover;
+}
+
+/* Чтобы текст внутри половинок был мельче и по центру */
+.card-part .card-content {
+    padding: 15px;
+    justify-content: center;
+    align-items: center;
+    opacity: 1 !important; /* Всегда виден внутри половинок */
+}
+
+.card-part .card-title {
+    font-size: 18px;
+    margin-bottom: 0;
+}
+
+.card-container:last-child {
+    flex: 0 0 calc(100vw - 120px); /* Твой новый размер */
+    max-width: 330px;
+    transform: scale(0.9);
+    
+    /* КРИТИЧНО: Принудительно заставляем её липнуть по центру */
+    scroll-snap-align: center; 
+    
+    /* Убираем правый отступ у последней карты, чтобы не ломать центровку */
+    margin-right: 0 !important; 
+}
+
+
+/* Настройка иконок на половинках карт */
+.split-card-btn {
+    /* Настраивай размер здесь: */
+    width: 55%;           /* Ширина относительно половинки карты */
+   /* max-width: 220px;      Максимальный порог, чтобы не было гигантским на планшетах */
+    
+    height: auto;         /* Пропорции сохраняются автоматически */
+    object-fit: contain;  /* Иконка не деформируется */
+    
+    /* Убираем любые фильтры, если иконка должна быть четкой */
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1)); 
+    
+    /* Плавность появления вместе с картой */
+    transition: transform 0.3s ease;
+}
+
+/* Центровка контента в половинках (убедимся, что она железная) */
+.card-part .card-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center; /* Центр по горизонтали */
+    align-items: center;     /* Центр по вертикали */
+    padding: 0;              /* Убираем падинги, чтобы центровка была точной */
+    pointer-events: none;
+}
+/* Эффект при наведении/нажатии на половинку (опционально) */
+.card-part:active .split-card-btn {
+    transform: scale(0.95);
+}
+
+
+/* --- СТИЛИ ДЛЯ ПЕРВОЙ КАРТЫ (CARD 1) --- */
+
+.card-1 .text-strip {
+    position: absolute;
+    top: 72%; 
+    left: 0;
+    width: 100%;
+    height: 4.7%;
+    
+    /* Текстура полоски */
+    background: url('assets/images/text_line.png') no-repeat center;
+    background-size: 100% 100%;
+    
+    display: flex;
+    align-items: center;
+    overflow: hidden; /* Скрываем текст за пределами карты */
+    z-index: 2;
+
+    transition: opacity 0.5s ease-in-out;
+    opacity: 1;
+}
+
+.card-container:not([style*="scale(1)"]) .card-1 .text-strip {
+    opacity: 0;
+}
+
+.card-1 .marquee {
+    display: flex;
+    width: max-content;
+    white-space: nowrap;
+    animation: marquee-run 60s linear infinite; /* Скорость бега текста */
+}
+
+.card-1 .marquee span {
+    font-family: 'MainFont', sans-serif;
+    font-weight: 300;
+    font-size: 12px !important; /*  размер под высоту полоски */
+    color: #000000;
+    padding-right: 10px; /* Отступ между повторами текста */
+}
+
+/* Анимация бега справа налево */
+@keyframes marquee-run {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* Настраиваем card-content для первой карты, чтобы текст не наезжал на полоску */
+.card-1 .card-content {
+    justify-content: flex-start;
+    padding-top: 40px;
+}
+
+/* --- ЗАГОЛОВОК ДЛЯ CARD 1 --- */
+
+.card-1 .card-header  {
+    position: absolute;
+    /* Твои координаты в процентах */
+    top: 6.0%; 
+    left: 4.8%;
+    
+    /* Шрифт и стиль */
+    font-family: 'MainFont', sans-serif;
+    font-weight: 400;    /* Жирный */
+    font-size: 22px;     /* Оптимальный размер для такого отступа */
+    color: #000000;
+    
+    line-height: 1;      /* Чтобы отступ считался точно от края букв */
+    z-index: 4;          /* Выше всех слоев */
+    pointer-events: none;
+    
+    /* Плавное появление при активации карты (как у остального контента) */
+    transition: opacity 0.6s ease-in-out;
+}
+
+/* Скрываем заголовок, когда карта не в центре (интеграция с твоим JS) */
+.card-container:not([style*="scale(1)"]) .card-1 .card-header {
+    opacity: 0;
+}
+
+/* --- ПОРТРЕТ ДЛЯ CARD 1 --- */
+
+.card-1 .card-portrait {
+    position: absolute;
+    /* Координаты по твоей сетке */
+    top: 15.8%;
+    left: 4.8%;
+    width: 41%;
+    
+    /* Для того чтобы фото корректно отображалось */
+    line-height: 0;
+    z-index: 3;
+    
+    transition: opacity 0.6s ease-in-out;
+}
+
+.card-1 .card-portrait img {
+    width: 100%;
+    height: auto; /* Сохраняем пропорции */
+    border-radius: 12px; /* Легкое скругление */
+    
+}
+
+/* Скрываем фото, если карта не активна */
+.card-container:not([style*="scale(1)"]) .card-1 .card-portrait {
+    opacity: 0;
+}
+
+/* --- КНОПКА ИНФО ДЛЯ CARD 1,2 --- */
+
+.card-1 .info-icon,
+.card-2 .info-icon {
+    position: absolute;
+    /* Координаты от правого нижнего угла */
+    bottom: 5%;
+    right: 4.8%;
+    
+    /* Размер */
+    width: 7.5%;
+    height: auto;
+    
+    z-index: 5;
+    transition: opacity 0.5s ease-in-out, transform 0.2s ease;
+    cursor: pointer;
+    pointer-events: auto; /* Чтобы на неё можно было нажать */
+}
+
+
+
+/* Скрываем, когда карта не активна */
+.card-container:not([style*="scale(1)"]) .card-1 .info-icon,
+.card-container:not([style*="scale(1)"]) .card-2 .info-icon {
+    opacity: 0;
+    pointer-events: none; /* Чтобы нельзя было нажать на иконку соседней карты */
+}
+
+/* --- ИНФО-БЛОК ДЛЯ CARD 1 --- */
+
+.card-1 .card-info-block {
+    position: absolute;
+    top: 16%;
+    left: 50.5%;
+    
+    display: flex;
+    flex-direction: column;
+    z-index: 3;
+    
+    transition: opacity 0.6s ease-in-out;
+}
+
+.card-1 .info-row {
+    font-family: 'MainFont', sans-serif;
+    font-size: 13px; 
+    font-weight: 400;
+    color: #000000;
+    line-height: 1.8; /* Плотное прилегание строк */
+    white-space: nowrap;
+}
+
+/* Тот самый увеличенный зазор между датой и номером */
+.card-1 .info-spacer {
+    height: 9px; 
+}
+
+/* Скрываем при свайпе */
+.card-container:not([style*="scale(1)"]) .card-1 .card-info-block {
+    opacity: 0;
+}
+
+/* --- БЛОК ФИО ДЛЯ CARD 1 --- */
+
+.card-1 .card-fio {
+    position: absolute;
+    /* Привязываемся к левому нижнему углу */
+    bottom: 6.4%; 
+    left: 4.8%;
+    
+    display: flex;
+    flex-direction: column;
+    
+    /* МЕНЯТЬ РАССТОЯНИЕ МЕЖДУ СТРОК ТУТ (например, 2px, 5px, -2px) */
+    gap: 5px; 
+    
+    z-index: 4;
+    transition: opacity 0.6s ease-in-out;
+}
+
+.card-1 .fio-row {
+    font-family: 'MainFont', sans-serif;
+    font-weight: 400;    /* Сделаем ФИО выразительным */
+    font-size: 21px;     /* Размер подбери под себя */
+    color: #000000;
+    line-height: 0.9;    /* Плотность самих букв */
+    
+}
+
+/* Скрываем при свайпе */
+.card-container:not([style*="scale(1)"]) .card-1 .card-fio {
+    opacity: 0;
+}
+
+
+/* --- ЗАДНЯЯ СТОРОНА CARD 1 --- */
+
+.card-1 .card-back {
+    /* Убедимся, что фон белый или настроим под стиль приложения */
+    background: #ffffff; 
+    display: block; /* Отключаем флекс, чтобы координаты были точными */
+}
+
+.card-1 .back-quadrat {
+    position: absolute;
+    
+    bottom: 23%;
+    left: 50%;
+    transform: translateX(-50%); /* Центрируем по горизонтали */
+    
+    /* Твои размеры */
+    width: 77.4%;
+    height: auto;
+    
+    
+}
+
+
+/*  CARD 2   */
+
+.card-2 .text-strip {
+    position: absolute;
+    top: 78%; 
+    left: 0;
+    width: 100%;
+    height: 4.7%;
+    background: url('assets/images/text_line.png') no-repeat center;
+    background-size: 100% 100%;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    z-index: 2;
+    transition: opacity 0.5s ease-in-out;
+}
+.card-container:not([style*="scale(1)"]) .card-2 .text-strip {
+    opacity: 0;
+}
+
+.card-2 .marquee {
+    display: flex;
+    width: max-content;
+    white-space: nowrap;
+    animation: marquee-run 35s linear infinite;
+}
+
+.card-2 .marquee span {
+    font-family: 'MainFont', sans-serif;
+    font-weight: 300;
+    font-size: 12px !important;
+    color: #000000;
+    padding-right: 10px;
+}
+
+.card-2 .card-header-2  {
+    position: absolute;
+    /* Твои координаты в процентах */
+    top: 5.7%; 
+    left: 4.8%;
+    
+    /* Шрифт и стиль */
+    font-family: 'MainFont', sans-serif;
+    font-weight: 400;    /* Жирный */
+    font-size: 22px;     /* Оптимальный размер для такого отступа */
+    color: #000000;
+
+    line-height: 1.2;      /* Чтобы отступ считался точно от края букв */
+    z-index: 4;          /* Выше всех слоев */
+    pointer-events: none;
+    
+    /* Плавное появление при активации карты (как у остального контента) */
+    transition: opacity 0.6s ease-in-out;
+   
+}
+
+.card-2 .card-second-header  {
+    position: absolute;
+    /* Твои координаты в процентах */
+    top: 18%; 
+    left: 4.8%;
+    
+    /* Шрифт и стиль */
+    font-family: 'MainFont', sans-serif;
+    font-weight: 400;    /* Жирный */
+    font-size: 16px;     /* Оптимальный размер для такого отступа */
+    color: #000000;
+
+    line-height: 1.2;      /* Чтобы отступ считался точно от края букв */
+    z-index: 4;          /* Выше всех слоев */
+    pointer-events: none;
+    
+    /* Плавное появление при активации карты (как у остального контента) */
+    transition: opacity 0.6s ease-in-out;
+
+   
+}
+.card-container:not([style*="scale(1)"]) .card-2 .card-header-2,
+.card-container:not([style*="scale(1)"]) .card-2 .card2-fio,
+.card-container:not([style*="scale(1)"]) .card-2 .card-second-header {
+    opacity: 0;
+    pointer-events: none; /* Чтобы не мешали кликать, пока скрыты */
+}
+
+.card-2 .card2-fio {
+    position: absolute;
+    /* Привязываемся к левому нижнему углу */
+    top: 30%; 
+    left: 4.8%;
+    
+    display: flex;
+    flex-direction: column;
+    
+    /* МЕНЯТЬ РАССТОЯНИЕ МЕЖДУ СТРОК ТУТ (например, 2px, 5px, -2px) */
+    gap: 8px; 
+    
+    z-index: 4;
+    transition: opacity 0.6s ease-in-out;
+}
+
+.card-2 .fio-row2 {
+    font-family: 'MainFont', sans-serif;
+    font-weight: 400;    /* Сделаем ФИО выразительным */
+    font-size: 16px;     /* Размер подбери под себя */
+    color: #000000;
+    line-height: 0.9;    /* Плотность самих букв */
+    
+}
+
+.card-2 .card-info-block {
+    position: absolute;
+    top: 43%;
+    left: 4.8%;
+    
+    display: flex;
+    flex-direction: column;
+    z-index: 3;
+    
+    
+}
+
+.card-2 .info-row {
+    font-family: 'MainFont', sans-serif;
+    font-size: 12px; /* Довольно мелкий, как ты и просил */
+    font-weight: 400;
+    color: #000000;
+    line-height: 1.8; /* Плотное прилегание строк */
+    white-space: nowrap;
+    transition: opacity 0.6s ease-in-out;
+}
+
+/* Скрываем при свайпе */
+.card-container:not([style*="scale(1)"]) .card-2 .info-row {
+    opacity: 0;
+}
+
+/* Контейнер для номера и кнопки */
+.card-2 .card-number-wrapper {
+    position: absolute;
+    bottom: 6%; 
+    left: 4.8%;
+    
+    display: flex;
+    align-items: center; /* Центрирует иконку по вертикали относительно текста */
+    gap: 6px;            /* Расстояние между номером и иконкой */
+    
+    z-index: 4;
+    transition: opacity 0.6s ease-in-out;
+}
+
+/* Сам номер (теперь без абсолютного позиционирования) */
+.card-2 .card-number {
+    font-family: 'MainFont', sans-serif;
+    font-weight: 400;
+    font-size: 25px;
+    color: #000000;
+    line-height: 1; 
+    pointer-events: none;
+}
+
+/* Иконка копирования */
+.card-2 .copy-icon {
+    width: 25px;         /* Настрой размер под себя */
+    height: auto;
+    cursor: pointer;
+    pointer-events: auto; /* Чтобы на кнопку можно было нажать */
+    transition: transform 0.2s ease;
+}
+
+/* Эффект при нажатии */
+.card-2 .copy-icon:active {
+    transform: scale(0.9);
+}
+
+/* Исчезновение всей группы при свайпе */
+.card-container:not([style*="scale(1)"]) .card-2 .card-number-wrapper {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* --- СТИЛИ ДЛЯ ТРЕТЬЕЙ КАРТЫ (CARD 3) --- */
+
+/* 1. Заголовок */
+.card-3 .card-header {
+    position: absolute;
+    top: 6.0%; 
+    left: 4.8%;
+    font-family: 'MainFont', sans-serif;
+    font-weight: 400;
+    font-size: 22px;
+    color: #000000;
+    line-height: 1.2;
+    z-index: 4;
+    transition: opacity 0.6s ease-in-out;
+}
+
+/* 2. Фото (Портрет) */
+.card-3 .card-portrait {
+    position: absolute;
+    top: 19%;
+    left: 4.8%;
+    width: 41%;
+    z-index: 3;
+    transition: opacity 0.6s ease-in-out;
+}
+
+.card-3 .card-portrait img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+}
+
+/* 3. Бегущая полоса */
+.card-3 .text-strip {
+    position: absolute;
+    top: 72%; 
+    left: 0;
+    width: 100%;
+    height: 4.7%;
+    background: url('assets/images/text_line.png') no-repeat center;
+    background-size: 100% 100%;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    z-index: 2;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.card-3 .marquee {
+    display: flex;
+    width: max-content;
+    white-space: nowrap;
+    animation: marquee-run 16s linear infinite;
+}
+
+.card-3 .marquee span {
+    font-family: 'MainFont', sans-serif;
+    font-weight: 300;
+    font-size: 12px !important;
+    color: #000000;
+    padding-right: 10px;
+}
+
+/* 4. Иконка Инфо */
+.card-3 .info-icon {
+    position: absolute;
+    bottom: 4.3%;
+    right: 4.8%;
+    width: 7.5%;
+    height: auto;
+    z-index: 5;
+    transition: opacity 0.5s ease-in-out;
+}
+
+/* 5. Задняя сторона (Квадрат) */
+.card-3 .card-back {
+    background: #ffffff; 
+    display: block; 
+}
+
+.card-3 .back-quadrat {
+    position: absolute;
+    bottom: 23%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 77.4%;
+    height: auto;
+}
+
+/* --- ПРАВИЛА ИСЧЕЗНОВЕНИЯ ПРИ СВАЙПЕ (ОБЯЗАТЕЛЬНО) --- */
+
+.card-container:not([style*="scale(1)"]) .card-3 .card-header,
+.card-container:not([style*="scale(1)"]) .card-3 .card-portrait,
+.card-container:not([style*="scale(1)"]) .card-3 .card-info-block,
+.card-container:not([style*="scale(1)"]) .card-3 .text-strip,
+.card-container:not([style*="scale(1)"]) .card-3 .card-fio,
+.card-container:not([style*="scale(1)"]) .card-3 .info-icon {
+    opacity: 0;
+    pointer-events: none;
+}
+/* --- ИНФО-БЛОК ДЛЯ CARD 3 --- */
+
+.card-3 .card-info-block {
+    position: absolute;
+    /* Координаты как на первой карте */
+    top: 19%;
+    left: 50.5%;
+    
+    display: flex;
+    flex-direction: column;
+    z-index: 3;
+    
+    transition: opacity 0.6s ease-in-out;
+}
+
+.card-3 .info-row {
+    font-family: 'MainFont', sans-serif; /* Подключаем твой шрифт */
+    font-size: 13px; 
+    font-weight: 400;
+    color: #000000;
+    line-height: 1.8; 
+    white-space: nowrap;
+}
+
+/* Расстояние между блоками текста */
+.card-3 .info-spacer {
+    height: 9px; 
+}
+
+/* Исчезновение при переключении */
+.card-container:not([style*="scale(1)"]) .card-3 .card-info-block {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.card-3 .card-fio {
+    position: absolute;
+    /* Привязываемся к левому нижнему углу */
+    bottom: 6.4%; 
+    left: 4.8%;
+    
+    display: flex;
+    flex-direction: column;
+    
+    /* МЕНЯТЬ РАССТОЯНИЕ МЕЖДУ СТРОК ТУТ (например, 2px, 5px, -2px) */
+    gap: 5px; 
+    
+    z-index: 4;
+    transition: opacity 0.6s ease-in-out;
+}
+
+.card-3 .fio-row {
+    font-family: 'MainFont', sans-serif;
+    font-weight: 400;    /* Сделаем ФИО выразительным */
+    font-size: 21px;     /* Размер подбери под себя */
+    color: #000000;
+    line-height: 0.9;    /* Плотность самих букв */
+    
+}
+
+/* Скрываем при свайпе */
+.card-container:not([style*="scale(1)"]) .card-3 .card-fio {
+    opacity: 0;
+}
+
+.card-3 .handwritten-container {
+    position: absolute;
+    /* Твои координаты */
+    top: 43%; 
+    left: 50.5%;
+    
+    /* Твои размеры */
+    width: 25%; 
+    height: 40px; 
+    
+    /* Всё, что выходит за границы 40% x 70px, будет обрезано */
+    overflow: hidden; 
+    
+    z-index: 5;
+    transition: opacity 0.6s ease-in-out;
+}
+
+.card-3 .handwritten-container img {
+    width: 100%;
+    height: 100%;
+    
+    /* МАГИЯ ОБРЕЗКИ: */
+    /* Растягивает картинку, чтобы она заполнила весь блок по ширине, 
+       сохраняя пропорции. Лишнее сверху/снизу или по бокам отсекается. */
+    object-fit: cover; 
+    
+    /* Центрируем содержимое, чтобы обрезка шла равномерно со всех сторон */
+    object-position: center; 
+}
+
+/* Скрываем при свайпе */
+.card-container:not([style*="scale(1)"]) .card-3 .handwritten-container {
+    opacity: 0;
+    pointer-events: none;
+}
+/* Скрываем при свайпе */
+.card-container:not([style*="scale(1)"]) .card-3 .handwritten-container {
+    opacity: 0;
+}
+
+
+/* --- СТИЛИ ДЛЯ ЧЕТВЕРТОЙ КАРТЫ (CARD 4) --- */
+
+.card-4 .card-header {
+    position: absolute;
+    top: 6.0%; left: 4.8%;
+    font-family: 'MainFont', sans-serif;
+    font-weight: 400; font-size: 22px; color: #000000;
+    line-height: 1.2; z-index: 4; transition: opacity 0.6s ease-in-out;
+}
+
+.card-4 .card-portrait {
+    position: absolute;
+    top: 19%; left: 4.8%; width: 41%;
+    z-index: 3; transition: opacity 0.6s ease-in-out;
+}
+
+.card-4 .card-portrait img {
+    width: 100%; height: auto; border-radius: 12px;
+}
+
+.card-4 .card-info-block {
+    position: absolute;
+    top: 19%; left: 50.5%;
+    display: flex; flex-direction: column; z-index: 3;
+    transition: opacity 0.6s ease-in-out;
+}
+
+.card-4 .info-row {
+    font-family: 'MainFont', sans-serif;
+    font-size: 13px; font-weight: 400; color: #000000;
+    line-height: 1.8; white-space: nowrap;
+}
+
+.card-4 .info-spacer { height: 9px; }
+
+.card-4 .handwritten-container {
+    position: absolute;
+    top: 43%; left: 50.5%; width: 25%; height: 40px;
+    overflow: hidden; z-index: 5; transition: opacity 0.6s ease-in-out;
+}
+
+.card-4 .handwritten-container img {
+    width: 100%; height: 100%; object-fit: cover; object-position: center;
+}
+
+.card-4 .text-strip {
+    position: absolute;
+    top: 72%; left: 0; width: 100%; height: 4.7%;
+    background: url('assets/images/text_line.png') no-repeat center;
+    background-size: 100% 100%;
+    display: flex; align-items: center; overflow: hidden;
+    z-index: 2; transition: opacity 0.5s ease-in-out;
+}
+
+.card-4 .marquee {
+    display: flex; width: max-content; white-space: nowrap;
+    animation: marquee-run 16s linear infinite;
+}
+
+.card-4 .marquee span {
+    font-family: 'MainFont', sans-serif;
+    font-weight: 300; font-size: 12px; color: #000000; padding-right: 10px;
+}
+
+.card-4 .card-fio {
+    position: absolute;
+    bottom: 6.4%; left: 4.8%;
+    display: flex; flex-direction: column; gap: 5px;
+    z-index: 4; transition: opacity 0.6s ease-in-out;
+}
+
+.card-4 .fio-row {
+    font-family: 'MainFont', sans-serif;
+    font-weight: 400; font-size: 21px; color: #000000; line-height: 0.9;
+}
+
+.card-4 .info-icon {
+    position: absolute; bottom: 4.3%; right: 4.8%;
+    width: 7.5%; height: auto; z-index: 5; transition: opacity 0.5s ease-in-out;
+}
+
+.card-4 .card-back { background: #ffffff; display: block; }
+.card-4 .back-quadrat {
+    position: absolute; bottom: 23%; left: 50%;
+    transform: translateX(-50%); width: 77.4%; height: auto;
+}
+
+/* --- ИСЧЕЗНОВЕНИЕ ДЛЯ CARD 4 --- */
+.card-container:not([style*="scale(1)"]) .card-4 .card-header,
+.card-container:not([style*="scale(1)"]) .card-4 .card-portrait,
+.card-container:not([style*="scale(1)"]) .card-4 .card-info-block,
+.card-container:not([style*="scale(1)"]) .card-4 .handwritten-container,
+.card-container:not([style*="scale(1)"]) .card-4 .text-strip,
+.card-container:not([style*="scale(1)"]) .card-4 .card-fio,
+.card-container:not([style*="scale(1)"]) .card-4 .info-icon {
+    opacity: 0;
+    pointer-events: none;
+}
+
+
+
+/* --- СТИЛИ ДЛЯ ПЯТОЙ КАРТЫ (CARD 5) --- */
+
+.card-5 .text-strip {
+    position: absolute;
+    top: 72%; left: 0; width: 100%; height: 4.7%;
+    background: url('assets/images/text_line.png') no-repeat center;
+    background-size: 100% 100%;
+    display: flex; align-items: center; overflow: hidden;
+    z-index: 2; transition: opacity 0.5s ease-in-out;
+}
+
+.card-5 .marquee {
+    display: flex; width: max-content; white-space: nowrap;
+    animation: marquee-run 16s linear infinite;
+}
+
+.card-5 .marquee span {
+    font-family: 'MainFont', sans-serif;
+    font-weight: 300; font-size: 12px; color: #000000; padding-right: 10px;
+}
+
+.card-5 .card-header-5 {
+    position: absolute;
+    top: 5.7%; left: 4.8%;
+    font-family: 'MainFont', sans-serif;
+    font-weight: 400; font-size: 22px; color: #000000;
+    line-height: 1.2; z-index: 4; transition: opacity 0.6s ease-in-out;
+}
+
+.card-5 .card-second-header-5 {
+    position: absolute;
+    top: 18%; left: 4.8%;
+    font-family: 'MainFont', sans-serif;
+    font-weight: 400; font-size: 13px; color: #000000;
+    line-height: 1.2; z-index: 4; transition: opacity 0.6s ease-in-out;
+}
+
+/* Блок ФИО для 5-й карты */
+.card-5 .card-fio5 {
+    position: absolute;
+    bottom: 6.4%; 
+    left: 4.8%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px; 
+    z-index: 4;
+    transition: opacity 0.6s ease-in-out;
+}
+
+.card-5 .fio-row5 {
+    font-family: 'MainFont', sans-serif;
+    font-weight: 400;
+    font-size: 21px; /* Сделал как на 1-й и 3-й картах */
+    color: #000000;
+    line-height: 0.9;
+}
+
+/* Правило исчезновения (убедись, что название класса совпадает) */
+.card-container:not([style*="scale(1)"]) .card-5 .card-fio5 {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.card-5 .card-number-wrapper-5 {
+    position: absolute;
+    bottom: 6%; left: 4.8%;
+    z-index: 4; transition: opacity 0.6s ease-in-out;
+}
+
+.card-5 .card-number-5 {
+    font-family: 'MainFont', sans-serif;
+    font-weight: 300; font-size: 24px; color: #000000;
+    line-height: 1; pointer-events: none;
+}
+
+.card-5 .info-icon {
+    position: absolute; bottom: 4.3%; right: 4.8%;
+    width: 7.5%; height: auto; z-index: 5; transition: opacity 0.5s ease-in-out;
+}
+
+/* --- ПРАВИЛА ИСЧЕЗНОВЕНИЯ ПРИ СВАЙПЕ ДЛЯ CARD 5 --- */
+
+.card-container:not([style*="scale(1)"]) .card-5 .text-strip,
+.card-container:not([style*="scale(1)"]) .card-5 .card-header-5,
+.card-container:not([style*="scale(1)"]) .card-5 .card-second-header-5,
+.card-container:not([style*="scale(1)"]) .card-5 .card5-fio,
+.card-container:not([style*="scale(1)"]) .card-5 .card-number-wrapper-5,
+.card-container:not([style*="scale(1)"]) .card-5 .info-icon {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Настройка задней стороны для Card 5 */
+.card-5 .card-back { background: #ffffff; display: block; }
+.card-5 .back-quadrat {
+    position: absolute; bottom: 23%; left: 50%;
+    transform: translateX(-50%); width: 77.4%; height: auto;
+}
+
+/* Общий контейнер для двух групп текста */
+.card-5 .card5-double-block {
+    position: absolute;
+    /* --- ПОЗИЦИЯ ВСЕГО БЛОКА --- */
+    top: 25%; 
+    left: 4.8%;
+    
+    display: flex;
+    flex-direction: column;
+    
+    /* --- РАССТОЯНИЕ МЕЖДУ ПЕРВЫМ И ВТОРЫМ БЛОКОМ --- */
+    gap: 15px; 
+    
+    z-index: 4;
+    transition: opacity 0.6s ease-in-out;
+}
+
+/* Настройка каждой группы (блока) */
+.card-5 .text-group {
+    display: flex;
+    flex-direction: column;
+    
+    /* --- МЕЖСТРОЧНЫЙ ИНТЕРВАЛ (внутри блока) --- */
+    /* 1.0 — вплотную, 1.2 — стандарт, 0.9 — наложение */
+    line-height: 1.7; 
+}
+
+/* Настройка самих строчек текста */
+.card-5 .text-line {
+    font-family: 'MainFont', sans-serif;
+    font-weight: 400;
+    color: #000000;
+    
+    /* --- РАЗМЕР ШРИФТА --- */
+    font-size: 13px; 
+    
+    white-space: nowrap;
+}
+
+/* Если нужно настроить блоки по отдельности, используй эти селекторы: */
+/*.card-5 .group-1 {  Стили только для первого блока  }
+.card-5 .group-2 { /* Стили только для второго блока  }*/
+
+/* --- ПРАВИЛО ИСЧЕЗНОВЕНИЯ ПРИ СВАЙПЕ --- */
+.card-container:not([style*="scale(1)"]) .card-5 .card5-double-block {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* --- УНИВЕРСАЛЬНАЯ ЗАДНЯЯ СТОРОНА КАРТ --- */
+
+.card-back {
+    background: #ffffff;
+    position: relative;
+    /* Теперь это базовый стиль для всех задних сторон */
+}
+
+/* Контейнер-обертка для текста и кода (Центрирует их вместе) */
+.back-content-wrapper {
+    position: absolute;
+    top: 35%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px; 
+    z-index: 2;
+    
+    /* Пропускаем клики сквозь контейнер, чтобы не блокировать кнопки */
+    pointer-events: none; 
+}
+
+/* Стиль текста над кодом (Таймер) */
+.back-text {
+    color: #8e8e8e;
+    font-family: 'MainFont', sans-serif;
+    font-size: 11px;
+    text-align: center;
+    font-weight: 300;
+}
+
+/* Область картинок */
+.code-display-area {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.code-img {
+    display: none; /* Скрыты по умолчанию, включаются через [data-mode] */
+    height: auto;
+}
+
+.qr-img { width: 74%; }
+.bar-img { width: 80%; }
+
+/* Кнопки переключения */
+.back-controls {
+    position: absolute;
+    bottom: 8%; 
+    left: 18%; 
+    right: 18%; 
+    display: flex;
+    justify-content: space-between;
+    z-index: 10; 
+}
+
+.mode-btn {
+    width: 100px; 
+    height: 100px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    
+    /* Делаем кнопки кликабельными, несмотря на pointer-events: none у родителя */
+    pointer-events: auto; 
+}
+
+/* --- УНИВЕРСАЛЬНАЯ ЛОГИКА ОТОБРАЖЕНИЯ (DATA-MODE) --- */
+
+[data-mode="qr"] .qr-img { display: block; }
+[data-mode="qr"] .qr-btn { background-image: url('assets/images/qrcode_on.png'); }
+[data-mode="qr"] .bar-btn { background-image: url('assets/images/barcode_off.png'); }
+
+[data-mode="bar"] .bar-img { display: block; }
+[data-mode="bar"] .bar-btn { background-image: url('assets/images/barcode_on.png'); }
+[data-mode="bar"] .qr-btn { background-image: url('assets/images/qrcode_off.png'); }
+
+/* Класс для эффекта мерцания кодов (используется таймером) */
+.code-display-area.blink {
+    opacity: 0;
+    transition: opacity 0.1s ease-in-out;
+}
+
+
+
+/* SERVICES STYLES */
+
+/* Стили для страницы сервисов с исправленным фоном */
+body.services-page {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    position: relative; /* Нужно для позиционирования фона */
+    background-color: #000; /* Или любой цвет, который у тебя на картинке снизу, на всякий случай */
+}
+
+/* Создаем фиксированную подложку для фона */
+body.services-page::before {
+    content: "";
+    position: fixed; /* Фиксируем намертво относительно экрана */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Уводим на задний план */
+    
+    background-image: url('assets/images/background.png');
+    background-repeat: no-repeat;
+    
+    /* Используем 'cover', но центрируем так, чтобы низ всегда был в приоритете */
+    background-position: center bottom;
+    background-size: cover;
+    
+    /* Убираем fixed отсюда, так как сам блок уже position: fixed */
+    background-attachment: scroll; 
+}
+
+
+
+body.services-page .widgets-container {
+    /* НАСТРОЙКА ОТСТУПОВ */
+    --side-margin: 10px; /* Боковой отступ (измени на свой вкус) */
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px var(--side-margin) 120px var(--side-margin); /* 120px снизу, чтобы не перекрывало меню */
+    box-sizing: border-box;
+    width: 100%;
+}
+
+body.services-page .widget-img {
+    width: 100%;       /* Растягивается на всю ширину контейнера */
+    max-width: 100%;   /* Не выходит за пределы */
+    height: auto;      /* Сохраняет пропорции картинки */
+    display: block;
+}
+
+body.services-page .bottom-widget {
+    /* ЗАЗОР МЕЖДУ ВИДЖЕТАМИ */
+    margin-top: 1px;  /* Настрой это значение для нужного зазора */
+}
+
+/* Настройка самого скролла, чтобы он был плавным */
+html {
+    scroll-behavior: smooth;
+}
+
+/* MENU PAGE STYLES */
+
+/* Настройки фона только для страницы меню */
+/* MENU PAGE STYLES — ИСПРАВЛЕННЫЙ ФОН */
+
+body.menu-page {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start !important;
+    overflow-y: auto;
+    position: relative;
+    /* Убираем фон отсюда, он теперь в ::before */
+    background: none; 
+}
+
+/* Создаем фиксированную подложку для фона меню */
+body.menu-page::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    
+    background-image: url('assets/images/background.png');
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    background-size: cover;
+    
+    /* Дополнительная страховка от белых полос при растяжении */
+    transform: scale(1.02); 
+}
+
+/* Контейнер для контента меню */
+body.menu-page main {
+    width: 100%;
+    box-sizing: border-box;
+    padding-bottom: 120px; 
+    position: relative;
+    z-index: 1;
+}
+
+/* Контейнер для контента внутри страницы меню */
+body.menu-page main {
+    width: 100%;
+    box-sizing: border-box;
+    /* Отступ снизу, чтобы меню не перекрывало будущий контент */
+    padding-bottom: 100px; 
+    position: relative;
+    z-index: 1;
+}
+
+
+/* --- СТИЛИ СТРАНИЦЫ МЕНЮ --- */
+
+body.menu-page {
+    overflow-y: auto;
+    justify-content: flex-start !important;
+}
+
+body.menu-page .menu-widgets-container {
+    /* --- НАСТРОЙКИ (МЕНЯЙ ЗДЕСЬ) --- */
+    --side-margin: 25px;      /* Отступы от краев экрана */
+    --top-margin: 60px;       /* Отступ от самого верха */
+    --gap-between: 20px;      /* Расстояние между виджетом и кнопкой */
+    --exit-btn-width: 45%;    /* Размер кнопки в % от ширины виджета */
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: var(--top-margin) var(--side-margin) 120px var(--side-margin);
+    box-sizing: border-box;
+}
+
+/* Стиль основной картинки-виджета */
+body.menu-page .menu-widget-img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Контейнер для кнопки (чтобы управлять её шириной относительно виджета) */
+body.menu-page .exit-button-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: var(--gap-between); /* Настраиваемый зазор */
+}
+
+/* Сама кнопка выхода */
+body.menu-page .exit-btn {
+    width: var(--exit-btn-width); /* Настраиваемый размер */
+    height: auto;
+    cursor: pointer;
+    transition: transform 0.1s ease, opacity 0.1s ease;
+    -webkit-tap-highlight-color: transparent; /* Убирает синюю рамку на мобилках */
+}
+
+/* Анимация нажатия */
+body.menu-page .exit-btn:active {
+    transform: scale(0.96); /* Слегка уменьшается при нажатии */
+    opacity: 0.8;           /* Слегка бледнеет */
+}
+
+.entry-date, .entry-time {
+    display: inline !important; /* Гарантируем, что дата не ведет себя как блок */
+    margin: 0 !important;       /* Убираем внешние отступы */
+    padding: 0 !important;      /* Убираем внутренние отступы */
+    white-space: nowrap;        /* Запрещаем перенос даты внутри */
+    letter-spacing: normal;     /* Сбрасываем межсимвольный интервал, если он был */
+}
